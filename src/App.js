@@ -77,7 +77,14 @@ function App() {
   }
 
   return (
-    <Box w={'40%'} m={'50px auto'} border={'4px solid #EDF2F7'} p={'16px'} rounded={'6px'} bgColor={'#F7FAFC'}>
+    <Box
+        w={{base: '100%', md: '40%'}}
+        m={{base: '0px', md: '50px auto'}}
+        minHeight={{base: '100vh', md: 'auto'}}
+        border={'4px solid #EDF2F7'}
+        p={'16px'} rounded={'6px'}
+        bgColor={'#F7FAFC'}
+    >
       <Box display={'flex'} gap={2}>
           <Input onChange={(e)=>setValueInput(e.target.value)} variant='filled' placeholder='Please enter value...' />
           <Button onClick={()=>handleAddTodo()} colorScheme='teal' size='md'>
@@ -96,13 +103,23 @@ function App() {
                         alignItems={'center'}
                         p={"0 8px"}
                     >
-                        <Text placeholder='Please enter value...'>{todo.name}</Text>
-
+                        <Text noOfLines={1} placeholder='Please enter value...'>{todo.name}</Text>
                     </Box>
-                    <Button onClick={()=>handleEdit(todo)} color={'#fff'} leftIcon={<DeleteIcon/>} colorScheme='blue' size='md'>
+                    <Button
+                        onClick={()=>handleEdit(todo)}
+                        color={'#fff'}
+                        leftIcon={<EditIcon/>}
+                        colorScheme='blue'
+                        size='md'
+                    >
                         Edit
                     </Button>
-                    <Button onClick={()=>handleDeleteTodo(todo.id)} leftIcon={<EditIcon/>} colorScheme='red' size='md'>
+                    <Button
+                        onClick={()=>handleDeleteTodo(todo.id)}
+                        leftIcon={<DeleteIcon/>}
+                        colorScheme='red'
+                        size='md'
+                    >
                         Delete
                     </Button>
                 </Box>
