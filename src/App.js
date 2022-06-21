@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import todoListAPI from "./axios/todoListAPI";
 import {
     Box,
-    Button,
+    Button, IconButton,
     Input,
     Modal, ModalBody,
     ModalCloseButton,
@@ -26,12 +26,13 @@ function App() {
 
   const getTodoList = async ()=>{
     const list = await todoListAPI.getAll()
-    setTodos(list.data)
+    setTodos(list.data.reverse())
     setIsLoading(false)
   }
 
   const handleAddTodo = async ()=>{
     await todoListAPI.postTodo({name: valueInput})
+      setValueInput('')
       toast({
           title: 'Todo created.',
           description: "We've created your todo for you.",
@@ -89,7 +90,7 @@ function App() {
         bgColor={'#F7FAFC'}
     >
       <Box display={'flex'} gap={2}>
-          <Input onChange={(e)=>setValueInput(e.target.value)} variant='filled' placeholder='Please enter value...' />
+          <Input value={valueInput} onChange={(e)=>setValueInput(e.target.value)} variant='filled' placeholder='Please enter value...' />
           <Button onClick={()=>handleAddTodo()} colorScheme='teal' size='md'>
               Add
           </Button>
@@ -97,7 +98,7 @@ function App() {
 
         <Box mt={'20px'}>
             {isLoading ? <SkeletonLoading/> : todos.map((todo, index)=>(
-                <Box key={index} display={'flex'} gap={2} mt={'10px'}>
+                <Box maxH={'80px'}  key={index} display={'flex'} gap={2} mt={'10px'}>
                     <Box
                         bgColor={'gray.300'}
                         rounded={'6px'}
@@ -114,17 +115,23 @@ function App() {
                         leftIcon={<EditIcon/>}
                         colorScheme='blue'
                         size='md'
+                        display={{base: 'none', sm:'none', md: 'block'}}
+                        minW={'auto'}
                     >
-                        <Text display={{base: 'none', sm: 'none', md: 'block'}}>Edit</Text>
+                        Edit
                     </Button>
+                    <IconButton onClick={()=>handleEdit(todo)} colorScheme='blue' display={{base: 'block',sm: 'block', md: 'none'}} icon={<EditIcon />} />
                     <Button
+                        display={{base: 'none', sm:'none', md: 'block'}}
                         onClick={()=>handleDeleteTodo(todo.id)}
                         leftIcon={<DeleteIcon/>}
                         colorScheme='red'
                         size='md'
+                        minW={'auto'}
                     >
-                        <Text display={{base: 'none', sm: 'none', md: 'block'}}>Delete</Text>
+                        Delete
                     </Button>
+                    <IconButton onClick={()=>handleDeleteTodo(todo.id)} colorScheme='red' display={{base: 'block',sm: 'block', md: 'none'}} icon={<DeleteIcon />} />
                 </Box>
             ))}
 
