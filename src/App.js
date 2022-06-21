@@ -14,7 +14,6 @@ import {
 } from "@chakra-ui/react";
 import {DeleteIcon, EditIcon} from "@chakra-ui/icons";
 import SkeletonLoading from "./skeletonLoading";
-import axios from "axios";
 
 function App() {
 
@@ -66,7 +65,6 @@ function App() {
           duration: 3000,
           isClosable: true,
       })
-
   }
 
   useEffect(()=>{
@@ -109,7 +107,7 @@ function App() {
       </Box>
 
         <Box
-            maxH={'60vh'}
+            maxH={{base: 'auto', md: '60vh'}}
             overflowY={'auto'}
             mt={'20px'}
             css={{
