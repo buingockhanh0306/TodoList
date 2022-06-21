@@ -13,6 +13,7 @@ import {
     Text, useDisclosure, useToast
 } from "@chakra-ui/react";
 import {DeleteIcon, EditIcon} from "@chakra-ui/icons";
+import SkeletonLoading from "./skeletonLoading";
 
 function App() {
 
@@ -20,11 +21,13 @@ function App() {
   const [valueInput, setValueInput] = useState('')
   const [valueEdit, setValueEdit] = useState('')
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [isLoading, setIsLoading] = useState(true)
   const toast = useToast()
 
   const getTodoList = async ()=>{
     const list = await todoListAPI.getAll()
     setTodos(list.data)
+    setIsLoading(false)
   }
 
   const handleAddTodo = async ()=>{
@@ -78,9 +81,9 @@ function App() {
 
   return (
     <Box
-        w={{base: '100%', md: '40%'}}
-        m={{base: '0px', md: '50px auto'}}
-        minHeight={{base: '100vh', md: 'auto'}}
+        w={{base: '100%', sm: '100%', md: '40%'}}
+        m={{base: '0px', sm: '0px', md: '50px auto'}}
+        minHeight={{base: '100vh', sm: '100vh', md: 'auto'}}
         border={'4px solid #EDF2F7'}
         p={'16px'} rounded={'6px'}
         bgColor={'#F7FAFC'}
@@ -93,7 +96,7 @@ function App() {
       </Box>
 
         <Box mt={'20px'}>
-            {todos?.map((todo, index)=>(
+            {isLoading ? <SkeletonLoading/> : todos.map((todo, index)=>(
                 <Box key={index} display={'flex'} gap={2} mt={'10px'}>
                     <Box
                         bgColor={'gray.300'}
@@ -112,7 +115,7 @@ function App() {
                         colorScheme='blue'
                         size='md'
                     >
-                        Edit
+                        <Text display={{base: 'none', sm: 'none', md: 'block'}}>Edit</Text>
                     </Button>
                     <Button
                         onClick={()=>handleDeleteTodo(todo.id)}
@@ -120,7 +123,7 @@ function App() {
                         colorScheme='red'
                         size='md'
                     >
-                        Delete
+                        <Text display={{base: 'none', sm: 'none', md: 'block'}}>Delete</Text>
                     </Button>
                 </Box>
             ))}
