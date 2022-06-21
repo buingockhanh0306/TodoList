@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import {DeleteIcon, EditIcon} from "@chakra-ui/icons";
 import SkeletonLoading from "./skeletonLoading";
+import axios from "axios";
 
 function App() {
 
@@ -31,21 +32,33 @@ function App() {
   }
 
   const handleAddTodo = async ()=>{
-    await todoListAPI.postTodo({name: valueInput})
-      setValueInput('')
-      toast({
-          title: 'Todo created.',
-          description: "We've created your todo for you.",
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-      })
-    getTodoList()
+      if(valueInput.trim()===''){
+          toast({
+              title: 'Value error.',
+              description: "Please enter value",
+              status: 'error',
+              duration: 3000,
+              isClosable: true,
+          })
+      }
+      else{
+          await todoListAPI.postTodo({name: valueInput.trim()})
+          setValueInput('')
+          toast({
+              title: 'Todo created.',
+              description: "We've created your todo for you.",
+              status: 'success',
+              duration: 3000,
+              isClosable: true,
+          })
+          getTodoList()
+      }
+
   }
 
   const handleDeleteTodo = async (id)=>{
-      console.log(id)
       await todoListAPI.deleteTodo(id)
+      getTodoList()
       toast({
           title: 'Todo deleted',
           description: "We've deleted your todo for you.",
@@ -53,7 +66,7 @@ function App() {
           duration: 3000,
           isClosable: true,
       })
-      getTodoList()
+
   }
 
   useEffect(()=>{
@@ -64,7 +77,6 @@ function App() {
       localStorage.setItem('id', todo.id)
       setValueEdit(todo.name)
       onOpen()
-
   }
 
   const handleUpdate = async ()=>{
@@ -96,7 +108,24 @@ function App() {
           </Button>
       </Box>
 
-        <Box mt={'20px'}>
+        <Box
+            maxH={'60vh'}
+            overflowY={'auto'}
+            mt={'20px'}
+            css={{
+                '&::-webkit-scrollbar': {
+                    width: '0px',
+                },
+                '&::-webkit-scrollbar-track': {
+                    width: '16px',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                    background: "#718096",
+                    marginLeft: '10px',
+                    borderRadius: '24px',
+                },
+            }}
+        >
             {isLoading ? <SkeletonLoading/> : todos.map((todo, index)=>(
                 <Box maxH={'80px'}  key={index} display={'flex'} gap={2} mt={'10px'}>
                     <Box
