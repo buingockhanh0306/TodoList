@@ -166,7 +166,6 @@ function App() {
             <MessengerCustomerChat
                 pageId="105436068727274"
                 appId="1399067010600674"
-                htmlRef="<REF_STRING>"
             />
 
             <Modal
