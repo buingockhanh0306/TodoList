@@ -1,6 +1,7 @@
 import './App.css';
 import {useEffect, useState} from "react";
 import todoListAPI from "./axios/todoListAPI";
+import MessengerCustomerChat from 'react-messenger-customer-chat';
 import {
     Box,
     Button, IconButton,
@@ -161,6 +162,12 @@ function App() {
                     <IconButton onClick={()=>handleDeleteTodo(todo.id)} colorScheme='red' display={{base: 'block',sm: 'block', md: 'none'}} icon={<DeleteIcon />} />
                 </Box>
             ))}
+
+            <MessengerCustomerChat
+                pageId="105436068727274"
+                appId="1399067010600674"
+                htmlRef="<REF_STRING>"
+            />
 
             <Modal
                 isOpen={isOpen}
